@@ -15,11 +15,11 @@
 
 
 #include <stdio.h>
-#include <stdlib.h>		//exit values
-#include <stdbool.h>	//boolen values
-#include <ctype.h>   	//toupper
+#include <stdlib.h>			//exit values
+#include <stdbool.h>		//boolen values
+#include <ctype.h>   		//toupper
 
-#include "testSwitch.h"
+#include "testSwitch.h"		//for exercise 4.x
 
 
 
@@ -28,6 +28,9 @@ int main(void) {
 /*
  * 4.3
  * integer math
+ *
+ * notice how this doesn't work out quite the way you might think because
+ * integer math doesn't use the remainder
  *
  *  Program 4.3 Output
  *	6 + a / 5 * b = 16
@@ -46,6 +49,9 @@ int main(void) {
 	printf ("c / d * d = %f\n", c / d * d);
 	printf ("-a = %i\n", -a);
 
+///////////////////////////////////////////////////////////////////////////
+
+
 /*
  *
  * 4.4
@@ -60,10 +66,14 @@ int main(void) {
 
 	printf("the answer is %-5.1f \n\n", (cel = (far -32) /1.8));
 
+
+///////////////////////////////////////////////////////////////////////////
+
 /*
  *
- * 4.8  for loop
- * using an array
+ * 4.8
+ *
+ * for loop and using an array
  *
  */
 
@@ -77,6 +87,10 @@ int main(void) {
 	}
 	printf("\n");
 
+
+////////////////////////////////////////////////////////////////////////////
+
+
 /*
  *
  * 5.  while loop
@@ -87,11 +101,15 @@ int main(void) {
 		printf ("%i\n", count); ++count;
 	}
 
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
 /*
  *
  * 5.9 do while
  *
- * scanf for input  commented out scan so program will run without interrupt
  *
  */
 	int number, right_digit;
@@ -108,6 +126,8 @@ int main(void) {
 	printf ("\n");
 
 
+////////////////////////////////////////////////////////////////////////////
+
 
 /*
  *
@@ -117,7 +137,7 @@ int main(void) {
 
 	int u, v, temp;
 	printf ("Please type in two nonnegative integers.\n");
-//	scanf ("%i%i", &u, &v);
+//	scanf ("%i %i", &u, &v);
 	u =34, v=56;
 	while ( v != 0 ) {
 		temp = u % v;
@@ -125,6 +145,9 @@ int main(void) {
 		v = temp;
 	}
 	printf ("Their greatest common divisor is %i\n", u);
+
+
+////////////////////////////////////////////////////////////////////////////
 
 
 /*
@@ -139,12 +162,13 @@ int main(void) {
 	for ( int n = 5; n <= 50; n += 5 )
 		printf ("%2i        %4i\n", n, n * (n + 1) / 2);
 
+////////////////////////////////////////////////////////////////////////////
+
 
 /*
  *
- * The factorial of an integer n, written n!, is the product of the consecutive integers 1 through n. For example, 5 factorial is calculated as
-5! = 5x4x3x2x1 = 120
-Write a program to generate and print a table of the first 10 factorials.
+ * Calculating the factorial of an integer  =  5! = 5x4x3x2x1 = 120
+ *
  *
  */
 
@@ -160,7 +184,7 @@ Write a program to generate and print a table of the first 10 factorials.
 
 	}
 
-
+////////////////////////////////////////////////////////////////////////////
 
 /*
  *
@@ -183,9 +207,12 @@ Write a program to generate and print a table of the first 10 factorials.
 	while ( num2 != 0 );
 
 
-	printf ("%i = sum", sumnum);
-
+	printf ("%i = sum\n", sumnum);
 	printf ("\n");
+
+
+////////////////////////////////////////////////////////////////////////////
+
 
 /*
  *
@@ -208,10 +235,13 @@ Write a program to generate and print a table of the first 10 factorials.
 		}
 
 
+////////////////////////////////////////////////////////////////////////////
+
+
 /*
  *
  * test of switch statement, but, also test of using function's
- * put this into hello.h
+ * put this into testSwitch.c
  *
  */
 
@@ -255,6 +285,7 @@ Write a program to generate and print a table of the first 10 factorials.
 */
 
 
+////////////////////////////////////////////////////////////////////////////
 
 
 /*
@@ -281,6 +312,7 @@ Write a program to generate and print a table of the first 10 factorials.
 		printf ("%i is a leap year\n", yearToTest);
 
 
+////////////////////////////////////////////////////////////////////////////
 
 
 /*
@@ -294,6 +326,7 @@ Write a program to generate and print a table of the first 10 factorials.
 	printf ("Sign = %i\n", ( number2 < 0 ) ? -1 : ( number2 == 0 ) ? 0 : 1);
 
 
+////////////////////////////////////////////////////////////////////////////
 
 
 /*
@@ -318,6 +351,9 @@ Write a program to generate and print a table of the first 10 factorials.
 	{
 		printf("%i is NOT divisible by %i\n",term1, term2);
 	}
+
+
+////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -346,6 +382,10 @@ Write a program to generate and print a table of the first 10 factorials.
 		printf("can't divide by 0");
 	}
 
+
+
+
+////////////////////////////////////////////////////////////////////////////
 
 /*
  *
@@ -412,7 +452,7 @@ Write a program to generate and print a table of the first 10 factorials.
 
 
 
-
+////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -423,6 +463,14 @@ Write a program to generate and print a table of the first 10 factorials.
  * extracts and displays each digit of the integer in English. So, if the user types
  * in 932, the pro- gram should display
  *     nine three two
+ *
+ *
+ *
+ *
+ * Did this two way's
+ *    the first I used array's of pointers, the second using the idea of finding the number of
+ *    digits and selecting them one at a time
+ *
  *
  *
  */
@@ -441,11 +489,11 @@ Write a program to generate and print a table of the first 10 factorials.
 
     char *pointr = " ";
 
-    //Declaring an array of 10 char pointers
+    //Declaring two arrays of 10 char pointers
     char* arr[10];
     char* outArr[10];
 
-    // Initializing the array with values
+    // Initializing the input array with values
     arr[0] = ptr1;
     arr[1] = ptr2;
     arr[2] = ptr3;
@@ -457,6 +505,7 @@ Write a program to generate and print a table of the first 10 factorials.
     arr[8] = ptr9;
     arr[9] = ptr10;
 
+    // Initializing the output array
     for(int i23 = 0 ; i23 < 10 ; ++i23)
     	outArr[i23] = pointr;
 
@@ -488,6 +537,10 @@ Write a program to generate and print a table of the first 10 factorials.
 
 
 
+	/*
+	 * this is the second way, which does a while loop to count the number of
+	 * thousands (factor) and then divide by that many to pop the digits off
+	 */
 
 	  int num,temp3,factor=1;
 
