@@ -15,7 +15,10 @@
 
 
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>		//exit values
+#include <stdbool.h>	//boolen values
+#include <ctype.h>   	//toupper
+
 #include "testSwitch.h"
 
 
@@ -319,7 +322,7 @@ Write a program to generate and print a table of the first 10 factorials.
 
 
 /*
- *
+ * 6.3
  * Write a program that accepts two integer values typed in by the user.
  * Display the result of dividing the first integer by the second,
  * to three-decimal-place accuracy. Remember to have the program check
@@ -332,8 +335,8 @@ Write a program to generate and print a table of the first 10 factorials.
 	int term3, term4;
 	double term5;
 	printf("key in two values separated by a space - ");
-	scanf("%i %i", &term3, &term4);
-	//term3 = 22, ter42=11;
+	//scanf("%i %i", &term3, &term4);
+	term3 = 22455, term4 = 11;
 
 	if (term4 != 0){
 		term5 = (double) term3 /  term4;
@@ -344,7 +347,222 @@ Write a program to generate and print a table of the first 10 factorials.
 	}
 
 
+/*
+ *
+ * 6.4
+ * Write a program that acts as a simple “printing” calculator.
+ * The program should allow the user to type in expressions of the form
+ * number operator
+ * The following operators should be recognized by the program:
+ *
+ * + - * / S E
+ *
+ *
+ *
+ */
 
+
+	int calc1;
+	char oper1;
+	int accum = 0;
+	_Bool runLoop = true;
+
+	printf("Begin Calculations\nkey in number and operator separated by a space - (i.e 10 S) --> ");
+	printf("\n");
+	while (runLoop) {
+		//scanf("%i %c", &calc1, &oper1);
+		calc1 = 10;
+		oper1 = 'e';
+		oper1 = toupper(oper1);
+		switch (oper1) {
+			case '+':
+				accum += calc1;
+				printf ("add %i to get new total of:%i\n", calc1, accum);
+				break;
+			case '-':
+				accum -= calc1;
+				printf ("subtract %i to get new total of:%i\n", calc1, accum);
+				break;
+			case '*':
+				accum *= calc1;
+				printf ("multiple by %i to get new total of:%i\n", calc1, accum);
+				break;
+			case '/':
+				if ( value2 == 0 )
+					printf ("Division by zero.\n");
+				else {
+					accum /= calc1;
+					printf ("divide by %i to get new total of:%i\n", calc1, accum);
+				}
+				break;
+			case 'S':
+				accum = calc1;
+				printf ("new total = %i\n",accum);
+				break;
+			case 'E':
+				runLoop = false;
+				printf ("End program\n"); break;
+				break;
+			default:
+				runLoop = false;
+				printf ("Unknown operator.\n");
+				break;
+		}
+	}
+
+
+
+
+
+
+
+/*
+ *
+ * 6.6
+ * Write a program that takes an integer keyed in from the terminal and
+ * extracts and displays each digit of the integer in English. So, if the user types
+ * in 932, the pro- gram should display
+ *     nine three two
+ *
+ *
+ */
+
+    // Declaring/Initializing ten characters pointers
+    char *ptr1 = "zero";
+    char *ptr2 = "one";
+    char *ptr3 = "two";
+    char *ptr4 = "three";
+    char *ptr5 = "four";
+    char *ptr6 = "five";
+    char *ptr7 = "six";
+    char *ptr8 = "seven";
+    char *ptr9 = "eight";
+    char *ptr10 = "nine";
+
+    char *pointr = " ";
+
+    //Declaring an array of 10 char pointers
+    char* arr[10];
+    char* outArr[10];
+
+    // Initializing the array with values
+    arr[0] = ptr1;
+    arr[1] = ptr2;
+    arr[2] = ptr3;
+    arr[3] = ptr4;
+    arr[4] = ptr5;
+    arr[5] = ptr6;
+    arr[6] = ptr7;
+    arr[7] = ptr8;
+    arr[8] = ptr9;
+    arr[9] = ptr10;
+
+    for(int i23 = 0 ; i23 < 10 ; ++i23)
+    	outArr[i23] = pointr;
+
+
+	int keyedValue;
+	int digit;
+	int cntr = 9;
+	_Bool isTrue = true;
+
+	printf("key in number --> ");
+	//scanf("%i", &keyedValue);
+	keyedValue = 345;
+	printf("\n");
+	while (isTrue) {
+		if (keyedValue < 10) {
+			isTrue = false;
+			outArr [cntr] = arr[keyedValue];
+			//printf("%s ", arr[keyedValue]);
+		}
+			else {
+				digit = keyedValue % 10;
+				keyedValue /= 10;
+				outArr[cntr] = arr[digit];
+				//printf("%s ", arr[digit]);
+			}
+		--cntr;
+		}
+	printf("%s %s %s %s %s %s %s %s %s %s\n", outArr[0], outArr[1], outArr[2], outArr[3], outArr[4], outArr[5], outArr[6], outArr[7], outArr[8], outArr[9] );
+
+
+
+
+	  int num,temp3,factor=1;
+
+	  printf("Enter a number: ");
+	  scanf("%d",&num);
+
+	  temp3=num;
+	  while(temp3){
+	      temp3=temp3/10;
+	      factor = factor*10;
+	  }
+
+	  printf("Each digits of given number are: ");
+	  while(factor>1){
+	      factor = factor/10;
+			switch (num/factor) {
+				case 0:
+					printf ("zero ");
+					break;
+				case 1:
+					printf ("one ");
+					break;
+				case 2:
+					printf ("two ");
+					break;
+				case 3:
+					printf ("three ");
+					break;
+				case 4:
+					printf ("four ");
+					break;
+				case 5:
+					printf ("five ");
+					break;
+				case 6:
+					printf ("six ");
+					break;
+				case 7:
+					printf ("seven ");
+					break;
+				case 8:
+					printf ("eight ");
+					break;
+				case 9:
+					printf ("nine ");
+					break;
+				default:
+					printf ("Unknown\n");
+					break;
+			}
+	      //printf("%d ",num/factor);
+	      num = num % factor;
+	  }
+
+
+
+/*
+
+	unsigned int count2(unsigned int i2) {
+	 unsigned int ret2=1;
+	 while (i2/=10) ret2++;
+	 return ret2;
+	}
+
+
+
+	unsigned int num=123; //for example
+	unsigned int dig3=count2(num);
+	char arr3[dig3];
+	while (dig3--) {
+	 arr3[dig3]=num%10;
+	 num/=10;
+	}
+
+*/
 
 
 
