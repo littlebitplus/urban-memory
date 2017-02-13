@@ -545,8 +545,8 @@ int main(void) {
 	  int num,temp3,factor=1;
 
 	  printf("Enter a number: ");
-	  scanf("%d",&num);
-
+	  //scanf("%d",&num);
+	  num = 67567;
 	  temp3=num;
 	  while(temp3){
 	      temp3=temp3/10;
@@ -595,7 +595,7 @@ int main(void) {
 	      num = num % factor;
 	  }
 
-
+	  printf("\n");
 
 /*
 
@@ -619,8 +619,45 @@ int main(void) {
 
 
 
+/*!
+ *
+ * 7.4
+ * Write a program that calculates the average of an array of 10 floating-point values.
+ *
+ *
+ *
+ */
+
+	  float array2[10];
+	  float sum3 = 0;
+	  int cnt1;
+
+	  for ( cnt1=1; cnt1<10 ; ++cnt1 ) {
+		  printf("Enter number: \n");
+	  	  //scanf("%f",&array2[cnt1]);
+		  array2[cnt1] = 4.567+cnt1;
+	  }
+
+	  for ( cnt1=1; cnt1<10 ; ++cnt1 ) {
+	      sum3 += array2[cnt1];
+	  }
+
+	  printf("Avg of these 10 numbers is: %f\n",sum3/cnt1);
 
 
+
+		float values[10] = {
+			0.1, 1.2, 2.3, 3.4, 4.5,
+			5.6, 6.7, 7.8, 8.9, 9.0
+		};
+		int count22 = sizeof(values) / sizeof(float);   	//way to count number of attributes in an array
+
+		float sum = 0;
+
+		for ( int i = 0; i < count22; i++ )
+			sum += values[i];
+
+		printf ("Average: %.2f\n", sum / count);
 
 		return EXIT_SUCCESS;
 }
