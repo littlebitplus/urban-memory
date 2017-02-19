@@ -21,6 +21,8 @@
 
 #include "testSwitch.h"		//for exercise 4.x
 
+#include "hello.h"		//for exercise 8.x
+
 
 
 int main(void) {
@@ -618,6 +620,9 @@ int main(void) {
 */
 
 
+////////////////////////////////////////////////////////////////////////////
+
+
 
 /*!
  *
@@ -658,6 +663,76 @@ int main(void) {
 			sum += values[i];
 
 		printf ("Average: %.2f\n", sum / count);
+
+
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+
+/*
+ *
+ * Program to sort an array of integers into ascending order
+ *
+ * put sort in function definition above this whole mess....
+ */
+
+
+
+		int		i;
+		int		array[16] = { 34, -5, 6, 0, 12, 100, 56, 22,
+							  44, -3, -9, 12, 17, 22, 6, 11 };
+
+
+
+			printf ("The array before the sort:\n");
+
+			for ( i = 0; i < 16; ++i )
+				printf ("%i ", array[i]);
+
+			sort (array, 16, 1);
+			printf ("\n\nThe array after the ascending sort:\n");
+			for ( i = 0; i < 16; ++i )
+				printf ("%i ", array[i]);
+
+			sort (array, 16, 0);
+			printf ("\n\nThe array after the descending sort:\n");
+			for ( i = 0; i < 16; ++i )
+				printf ("%i ", array[i]);
+			printf ("\n");
+
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+			// Function to calculate the nth triangular number
+
+
+
+
+
+		int holdTriangle;
+
+		holdTriangle = calculateTriangularNumber (10);
+		printf("value %i \n", holdTriangle);
+		holdTriangle = calculateTriangularNumber (20);
+		printf("value %i \n", holdTriangle);
+		holdTriangle = calculateTriangularNumber (50);
+		printf("value %i \n", holdTriangle);
+
+
+
+
+
+
+
+
+
 
 		return EXIT_SUCCESS;
 }
