@@ -26,7 +26,7 @@ struct date																		//put here so available to all
 int main(void) {
 	//puts("!!!Hello World!!!"); 													//generic puts
 
-	//struct date firstDay = { 8, 8, 2004 };
+	//struct date firstDay = { 8, 8, 2004 };			//for fixed entry
 	//struct date secondDay = { 2, 22, 2005 };
 
 	struct date firstDay;
