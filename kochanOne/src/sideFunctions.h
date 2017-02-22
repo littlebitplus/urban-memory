@@ -12,7 +12,7 @@
 
 	int calculateDateNumber (struct date d);
 	struct date enterDateData (int requestNum);
-
+	struct time elapsed_time (struct time timeA, struct time timeB);
 
 #endif /* SIDEFUNCTIONS_H_ */
 

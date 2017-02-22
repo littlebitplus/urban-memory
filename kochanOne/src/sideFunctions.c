@@ -13,7 +13,12 @@ struct date
 	int day;
 	int year;
 };
-
+struct time
+{
+	int hour;
+	int minute;
+	int second;
+};
 
 
 /*
@@ -56,4 +61,35 @@ int calculateDateNumber (struct date d) {
 	return (numb);
 }
 
+
+struct time elapsed_time (struct time time1, struct time time2) {
+
+	struct time timeDiff;
+
+	if (time2.second >= time1.second) {
+		timeDiff.second = time2.second - time1.second;
+	}
+	else  {
+		timeDiff.second = (time2.second + 60) - time1.second;
+		time2.minute -= 1;
+	}
+
+	if (time2.minute >= time1.minute) {
+		timeDiff.minute = time2.minute - time1.minute;
+	}
+	else  {
+		timeDiff.minute = (time2.minute + 60) - time1.minute;
+		time2.hour -= 1;
+	}
+
+	timeDiff.hour = time2.hour - time1.hour;
+
+
+
+	//timeDiff.hour = time2.hour - time1.hour;
+	//timeDiff.minute = time2.minute - time1.minute;
+	//timeDiff.second = time2.second - time1.second;
+	return (timeDiff);
+
+}
 
