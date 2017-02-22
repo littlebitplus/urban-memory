@@ -32,6 +32,8 @@ struct week
 	char name[3];
 };
 
+
+
 #include "sideFunctions.h"														//to bring in functions
 
 
@@ -92,6 +94,7 @@ int main(void) {
  */
 
 
+
 	struct date day1 = { 8, 8, 2004 };			//for fixed entry
 	int day1Number;
 	int dayOfWeekNum;
@@ -110,6 +113,8 @@ int main(void) {
 	dayOfWeekNum = (day1Number - 621049) % 7;	//formula to get day of week (-621049 %7)
 
 	printf ("%i/%i/%i was a %c%c%c \n", day1.month, day1.day, day1.year, days[dayOfWeekNum].name[0], days[dayOfWeekNum].name[1], days[dayOfWeekNum].name[2]);
+
+
 
 
 
