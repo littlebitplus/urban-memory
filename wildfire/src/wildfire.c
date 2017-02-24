@@ -1,12 +1,25 @@
 /*
- ============================================================================
+ ==============================================================================
  Name        : wildfire.c
- Author      : tim
- Version     :
- Copyright   : Your copyright notice
- Description : Hello World in C, Ansi-style
- ============================================================================
- */
+ Author      : x
+ Version     : 1.0
+ Created 	 : 2017/02/23
+
+ Description :
+ 	 	 	 :
+
+ Steps		 :
+ 	 	 	 :
+ 	 	 	 :
+
+
+ Notes 	 	 : Compile
+ 	 	 	 : gcc -Wall -Wextra -std=c99 -pedantic wildfire.c -o wildfire
+ 	 	 	 : Compile with debug
+ 	 	 	 : gcc -Wall -Wextra -std=c99 -pedantic -g wildfire.c -o wildfire
+ 	 	 	 : Added to git
+ ==============================================================================
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -154,8 +167,10 @@ int main(int argc, char *argv[]) {
 	//		burn, probability, density, proportion, cycles, size);
 
 
-	printf("size %i, pCatch %i, density %i, pBurning %i, pNeighbor %i\n",
-			size, probability, density, proportion, burn);
+	printf("size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
+			size, (double) probability/100, (double) density/100, (double) proportion/100, (double) burn/100);
+	printf("cycle %i, changes %i, cumulative changes %i\n", cycles, cycles, cycles);
+	printf("Fires are out\n");
 
 	return EXIT_SUCCESS;
 
