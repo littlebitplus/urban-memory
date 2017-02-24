@@ -22,7 +22,7 @@ void updateForest(char forest[][10],
             forest3[i][i2] = forest[i][i2];
         }
     }
-
+/*
     printf("forest in wildfire_update\n");
     for (int i = 0; i < size; i++)
     {
@@ -43,7 +43,7 @@ void updateForest(char forest[][10],
 
         puts(" ");
     }
-
+*/
 
     for (row = 1; row < size; row++)
     {
