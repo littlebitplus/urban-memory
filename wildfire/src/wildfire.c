@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-//	printf ("here\n");
+
 
 	if (burn == -1 ) {
 		burn = DEFAULT_BURN;
@@ -163,8 +163,156 @@ int main(int argc, char *argv[]) {
 		}
 
 
-	//printf("burn -->%i, probability -->%i, density -->%i, proportion -->%i, cycles -->%i, size -->%i\n",
-	//		burn, probability, density, proportion, cycles, size);
+
+	char forest[size][size];
+	printf ("here\n");
+    for(int i = 0; i < size; i++)
+    {
+    	for (int i2 = 0; i2 < size; i2++) {
+    		forest[i][i2] = LIVE_TREE;
+    	}
+    }
+
+    forest[size/2][size/2] = BURNING_TREE;
+
+	char forest2[size][size];
+	printf ("here\n");
+    for(int i = 0; i < size; i++)
+    {
+    	for (int i2 = 0; i2 < size; i2++) {
+    		forest2[i][i2] = LIVE_TREE;
+    	}
+    }
+
+    forest2[size/2][size/2] = BURNING_TREE;
+
+
+	char forest3[size][size];
+	printf ("here\n");
+    for(int i = 0; i < size; i++)
+    {
+    	for (int i2 = 0; i2 < size; i2++) {
+    		forest3[i][i2] = LIVE_TREE;
+    	}
+    }
+
+    forest3[size/2][size/2] = BURNING_TREE;
+
+//    printf("%c\n",forest [5][4]);
+//    printf("%c\n",forest [size/2][size/2]);
+
+    for (int i = 0; i < size; i++)
+    {
+             for(int i2 = 0; i2 < size; i2++)
+             {
+                     printf("%c", forest[i][i2]);
+             }
+             puts(" ");
+    }
+
+    puts("---------");
+
+    int row, col;
+
+
+    for (int cnt = 0; cnt < size; ++cnt) {
+
+
+    for(row = 1; row<size; row++)
+    {
+           for(col = 1; col<size; col++)
+           {
+        	   int neighbors = 0;
+                  if(*&forest[row][col] == 'Y')
+                  {
+                     if(forest[row - 1][col - 1] == '*')
+                            neighbors++;
+                     if(forest[row - 1][col] == '*')
+                            neighbors++;
+                     if(forest[row - 1][col + 1] == '*')
+                            neighbors++;
+                     if(forest[row][col - 1] == '*')
+                            neighbors++;
+                     if(forest[row][col + 1] == '*')
+                            neighbors++;
+                     if(forest[row + 1][col - 1] == '*')
+                            neighbors++;
+                     if(forest[row + 1][col] == '*')
+                            neighbors++;
+                     if(forest[row + 1][col + 1] == '*')
+                            neighbors++;
+                     if(neighbors > 0)
+                     {
+                    	 forest2[row][col] = '*';
+                     }
+                  }
+           }
+    }
+
+    for(int i = 0; i < size; i++)
+    {
+    	for (int i2 = 0; i2 < size; i2++) {
+    		forest[i][i2] = forest2[i][i2];
+    	}
+    }
+
+//  to update burning tree's to burned tree's
+
+
+    for (int cnt = 0; cnt < size; ++cnt) {
+
+
+    for(row = 1; row<size; row++)
+    {
+           for(col = 1; col<size; col++)
+           {
+        	   int neighbors = 0;
+                  if(*&forest3[row][col] == '*')
+                  {
+                    	forest2[row][col] = '.';
+                     }
+                  }
+           }
+    }
+
+    for(int i = 0; i < size; i++)
+    {
+    	for (int i2 = 0; i2 < size; i2++) {
+    		forest[i][i2] = forest2[i][i2];
+    		forest3[i][i2] = forest2[i][i2];
+    	}
+    }
+
+
+
+
+
+	printf("cycle #%i\n", cnt);
+    for (int i = 0; i < size; i++)
+    {
+             for(int i2 = 0; i2 < size; i2++)
+             {
+                     printf("%c", forest2[i][i2]);
+             }
+             puts(" ");
+    }
+
+    }
+
+
+    for (int i = 0; i < size; i++)
+    {
+             for(int i2 = 0; i2 < size; i2++)
+             {
+                     printf("%c", forest[i][i2]);
+             }
+             puts(" ");
+    }
+
+
+
+	printf("The program cleared the screen here\n");
+	printf("header 22222\n");
 
 
 	printf("size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
