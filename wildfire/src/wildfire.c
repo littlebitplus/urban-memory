@@ -51,6 +51,7 @@ int main(int    argc,
     const char LIVE_TREE             = 'Y';
     const char BURNING_TREE          = '*';
     const char BURNED_TREE           = '.';
+    const char HOLD_TREE             = '$';
     int        DEFAULT_BURN          = 10;
     int        DEFAULT_PROB_CATCH    = 30;
     int        DEFAULT_DENSITY       = 50;
@@ -184,8 +185,8 @@ int main(int    argc,
 
     char forest[size][size];
 
-//    printf("here\n");
-
+    // printf("here\n");
+    // load up forest with live tree's
     for (int i = 0; i < size; i++)
     {
         for (int i2 = 0; i2 < size; i2++)
@@ -193,40 +194,35 @@ int main(int    argc,
             forest[i][i2] = LIVE_TREE;
         }
     }
+
+    // put in 1 burning tree
     forest[size / 2][size / 2] = BURNING_TREE;
 
     // printf("%c\n",forest [5][4]);
     // printf("%c\n",forest [size/2][size/2]);
+    // print out forest
+    printf("forest in wildfire\n");
+
     for (int i = 0; i < size; i++)
     {
         for (int i2 = 0; i2 < size; i2++)
         {
             printf("%c", forest[i][i2]);
         }
+
         puts(" ");
     }
 
     puts("---------");
-
     printf("size = %i\n", size);
 
-
-    printf("forest in wildfire\n");
-    for (int i = 0; i < size; i++)
-    {
-        for (int i2 = 0; i2 < size; i2++)
-        {
-            printf("%c", forest[i][i2]);
-        }
-
-        puts(" ");
-    }
-
+    // loop through cycles
     for (int cnt = 1; cnt < cycles + 1; cnt++)
     {
         updateForest(forest, size);
         printf("cycle #%i\n", cnt);
 
+        // print out forest
         for (int i = 0; i < size; i++)
         {
             for (int i2 = 0; i2 < size; i2++)
@@ -237,7 +233,6 @@ int main(int    argc,
             puts(" ");
         }
     }
-
 
     printf("The program cleared the screen here\n");
     printf("header 22222\n");

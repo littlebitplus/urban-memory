@@ -10,125 +10,171 @@
 void updateForest(char forest[][10],
                   int  size)
 {
-    int  row, col;
-    char forest2[size][size];
-    char forest3[size][size];
+    int row, col;
 
-    for (int i = 0; i < size; i++)
-    {
-        for (int i2 = 0; i2 < size; i2++)
-        {
-            forest2[i][i2] = forest[i][i2];
-            forest3[i][i2] = forest[i][i2];
-        }
-    }
-/*
-    printf("forest in wildfire_update\n");
-    for (int i = 0; i < size; i++)
-    {
-        for (int i2 = 0; i2 < size; i2++)
-        {
-            printf("%c", forest[i][i2]);
-        }
+    /*
+     *
+     *   char forest2[size][size];
+     *   char forest3[size][size];
+     *
+     *   for (int i = 0; i < size; i++)
+     *   {
+     *       for (int i2 = 0; i2 < size; i2++)
+     *       {
+     *           forest2[i][i2] = forest[i][i2];
+     *           forest3[i][i2] = forest[i][i2];
+     *       }
+     *   }
+     *
+     *   printf("forest in wildfire_update\n");
+     *   for (int i = 0; i < size; i++)
+     *   {
+     *       for (int i2 = 0; i2 < size; i2++)
+     *       {
+     *           printf("%c", forest[i][i2]);
+     *       }
+     *
+     *       puts(" ");
+     *   }
+     *   printf("forest2 in wildfire_update\n");
+     *   for (int i = 0; i < size; i++)
+     *   {
+     *       for (int i2 = 0; i2 < size; i2++)
+     *       {
+     *           printf("%c", forest2[i][i2]);
+     *       }
+     *
+     *       puts(" ");
+     *   }
+     */
 
-        puts(" ");
-    }
-    printf("forest2 in wildfire_update\n");
-    for (int i = 0; i < size; i++)
+    // to handle the first row, don't have to check above it
+    // to handle the last row, don't have to check below it
+    // to handle the first column, don't have to check to the left
+    // to handle the last column, don't have to check to the right
+    for (row = 0; row < size; row++)
     {
-        for (int i2 = 0; i2 < size; i2++)
-        {
-            printf("%c", forest2[i][i2]);
-        }
-
-        puts(" ");
-    }
-*/
-
-    for (row = 1; row < size; row++)
-    {
-        for (col = 1; col < size; col++)
+        for (col = 0; col < size; col++)
         {
             int neighbors = 0;
 
             if (*&forest[row][col] == 'Y')
             {
-                if (forest[row - 1][col - 1] == '*')
+                if (row > 0)
                 {
-                    neighbors++;
+                    if (col > 0)
+                    {
+                        if (forest[row - 1][col - 1] == '*')
+                        {
+                            neighbors++;
+                        }
+                    }
                 }
 
-                if (forest[row - 1][col] == '*')
+                if (row > 0)
                 {
-                    neighbors++;
+                    if (forest[row - 1][col] == '*')
+                    {
+                        neighbors++;
+                    }
                 }
 
-                if (forest[row - 1][col + 1] == '*')
+                if (row > 0)
                 {
-                    neighbors++;
+                    if (col != size)
+                    {
+                        if (forest[row - 1][col + 1] == '*')
+                        {
+                            neighbors++;
+                        }
+                    }
                 }
 
-                if (forest[row][col - 1] == '*')
+                if (col > 0)
                 {
-                    neighbors++;
+                    if (forest[row][col - 1] == '*')
+                    {
+                        neighbors++;
+                    }
                 }
 
-                if (forest[row][col + 1] == '*')
+                if (col != size)
                 {
-                    neighbors++;
+                    if (forest[row][col + 1] == '*')
+                    {
+                        neighbors++;
+                    }
                 }
 
-                if (forest[row + 1][col - 1] == '*')
+                if (col > 0)
                 {
-                    neighbors++;
+                    if (row != size)
+                    {
+                        if (forest[row + 1][col - 1] == '*')
+                        {
+                            neighbors++;
+                        }
+                    }
                 }
 
-                if (forest[row + 1][col] == '*')
+                if (row != size)
                 {
-                    neighbors++;
+                    if (forest[row + 1][col] == '*')
+                    {
+                        neighbors++;
+                    }
                 }
 
-                if (forest[row + 1][col + 1] == '*')
+                if (row != size)
                 {
-                    neighbors++;
+                    if (col != size)
+                    {
+                        if (forest[row + 1][col + 1] == '*')
+                        {
+                            neighbors++;
+                        }
+                    }
                 }
 
                 if (neighbors > 0)
                 {
-                    forest2[row][col] = '*';
+                    forest[row][col] = '$';
                 }
             }
         }
-
-        for (int i = 0; i < size; i++)
-        {
-            for (int i2 = 0; i2 < size; i2++)
-            {
-                forest[i][i2] = forest2[i][i2];
-            }
-        }
     }
 
-    printf("forest2\n");
-    for (int i = 0; i < size; i++)
-    {
-        for (int i2 = 0; i2 < size; i2++)
-        {
-            printf("%c", forest2[i][i2]);
-        }
-
-        puts(" ");
-    }
-
+    /*
+     *       for (int i = 0; i < size; i++)
+     *       {
+     *           for (int i2 = 0; i2 < size; i2++)
+     *           {
+     *               forest[i][i2] = forest2[i][i2];
+     *           }
+     *       }
+     *
+     *   }
+     *
+     *   printf("forest2\n");
+     *   for (int i = 0; i < size; i++)
+     *   {
+     *       for (int i2 = 0; i2 < size; i2++)
+     *       {
+     *           printf("%c", forest2[i][i2]);
+     *       }
+     *
+     *       puts(" ");
+     *   }
+     */
 
     // to update burning tree's to burned tree's
     for (int cnt = 0; cnt < size; ++cnt)
     {
-        for (row = 1; row < size; row++)
+        for (row = 0; row < size; row++)
         {
-            for (col = 1; col < size; col++)
+            for (col = 0; col < size; col++)
             {
-                if (*&forest3[row][col] == '*')
+                if (*&forest[row][col] == '*')
                 {
                     forest[row][col] = '.';
                 }
@@ -136,17 +182,33 @@ void updateForest(char forest[][10],
         }
     }
 
-    printf("forest3\n");
-    for (int i = 0; i < size; i++)
+    // to update hold burning tree's to actual burned tree's
+    for (int cnt = 0; cnt < size; ++cnt)
     {
-        for (int i2 = 0; i2 < size; i2++)
+        for (row = 0; row < size; row++)
         {
-            printf("%c", forest3[i][i2]);
+            for (col = 0; col < size; col++)
+            {
+                if (*&forest[row][col] == '$')
+                {
+                    forest[row][col] = '*';
+                }
+            }
         }
-
-        puts(" ");
     }
 
+    /*
+     *   printf("forest3\n");
+     *   for (int i = 0; i < size; i++)
+     *   {
+     *       for (int i2 = 0; i2 < size; i2++)
+     *       {
+     *           printf("%c", forest3[i][i2]);
+     *       }
+     *
+     *       puts(" ");
+     *   }
+     */
     return;
 }
 
