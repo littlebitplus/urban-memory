@@ -39,9 +39,9 @@ int DEFAULT_BURN = 10;
 int DEFAULT_PROB_CATCH = 30;
 int DEFAULT_DENSITY = 50;
 int DEFAULT_PROP_NEIGHBOR = 25;
-_Bool DEFAULT_PRINT_COUNT = 1;
+_Bool DEFAULT_PRINT_COUNT = 1; //need to change this to 0 when adding visualization
 int DEFAULT_CYCLES = 10;    // wasn't specified but i needed for testing
-int DEFAULT_SIZE = 20;
+int DEFAULT_SIZE = 10;
 int burn = -1;
 int pCatch = -1;
 int density = -1;
@@ -51,8 +51,6 @@ int cycles = -1;
 int option = 0;
 double randomDensity;
 double randomBurning;
-
-
 
 int main(int argc, char * argv[])
 {
@@ -177,16 +175,16 @@ int main(int argc, char * argv[])
 	/*
 	 * load up forest
 	 */
-	srand(time(NULL));
-
+	srandom(time(0));
+	srandom(41);	//for consistent testing
 	for (int i = 0; i < size; i++)
 	{
 		for (int i2 = 0; i2 < size; i2++)
 		{
-			randomDensity = (double) rand() / ((double) RAND_MAX + 1);
+			randomDensity = (double) random() / ((double) RAND_MAX + 1);
 			if (randomDensity < ((double) density / 100))
 			{
-				randomBurning = (double) rand() / ((double) RAND_MAX + 1);
+				randomBurning = (double) random() / ((double) RAND_MAX + 1);
 				if (randomBurning < ((double) burn / 100))
 				{
 					forest[i][i2] = BURNING_TREE;
@@ -246,7 +244,7 @@ int main(int argc, char * argv[])
 
 	for (int cnt = 1; cnt < cycles + 1; cnt++)
 	{
-		main_STILL_BURNING = updateForest(forest, size);	//main working function
+		main_STILL_BURNING = updateForest(forest, size);//main working function
 
 		puts(" ");
 		puts(" ");

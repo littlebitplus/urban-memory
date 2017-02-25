@@ -10,11 +10,8 @@
 //void updateForest(char forest[][10],
 //                  int  size);
 
-
 void print_usage();
 _Bool updateForest(void *forestx, int size);
-
-
 
 // GLOBAL DEFINTIONS
 const char EMPTY;
