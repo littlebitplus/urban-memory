@@ -28,6 +28,15 @@
 #include <stdbool.h>
 #include "wildfire.h"
 
+
+// GLOBAL VARIABLES DEFINED IN HEADER, ASSIGNED VALUES IN WILDFIRE
+const char EMPTY        = ' ';
+const char LIVE_TREE    = 'Y';
+const char BURNING_TREE = '*';
+const char BURNED_TREE  = '.';
+const char HOLD_TREE    = '$';
+
+
 void print_usage()
 {
     fprintf(stderr, "usage: wildfire [options]\n");
@@ -47,25 +56,20 @@ void print_usage()
 int main(int    argc,
          char * argv[])
 {
-    const char EMPTY                 = ' ';
-    const char LIVE_TREE             = 'Y';
-    const char BURNING_TREE          = '*';
-    const char BURNED_TREE           = '.';
-    const char HOLD_TREE             = '$';
-    int        DEFAULT_BURN          = 10;
-    int        DEFAULT_PROB_CATCH    = 30;
-    int        DEFAULT_DENSITY       = 50;
-    int        DEFAULT_PROP_NEIGHBOR = 25;
-    _Bool      DEFAULT_PRINT_COUNT   = 1;
-    int        DEFAULT_CYCLES        = 10;    // wasn't specificied
-    int        DEFAULT_SIZE          = 10;
-    int        burn                  = -1;
-    int        probability           = -1;
-    int        density               = -1;
-    int        proportion            = -1;
-    int        size                  = -1;
-    int        cycles                = -1;
-    int        option                = 0;
+    int   DEFAULT_BURN          = 10;
+    int   DEFAULT_PROB_CATCH    = 30;
+    int   DEFAULT_DENSITY       = 50;
+    int   DEFAULT_PROP_NEIGHBOR = 25;
+    _Bool DEFAULT_PRINT_COUNT   = 1;
+    int   DEFAULT_CYCLES        = 10;    // wasn't specificied
+    int   DEFAULT_SIZE          = 20;
+    int   burn                  = -1;
+    int   probability           = -1;
+    int   density               = -1;
+    int   proportion            = -1;
+    int   size                  = -1;
+    int   cycles                = -1;
+    int   option                = 0;
 
     // printf ("Number of arguments = %i\n", argc);
     // Specifying the expected options

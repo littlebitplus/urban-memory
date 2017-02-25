@@ -7,11 +7,17 @@
 
 #include <stdio.h>
 
-void updateForest(char forest[][10],
+#include "wildfire.h"
+
+
+//void updateForest(char forest[][10],                   int  size)
+
+void updateForest(void *forestx,
                   int  size)
 {
     int row, col;
 
+    char (*forest)[size] = forestx;
     /*
      *
      *   char forest2[size][size];
@@ -58,13 +64,13 @@ void updateForest(char forest[][10],
         {
             int neighbors = 0;
 
-            if (*&forest[row][col] == 'Y')
+            if (*&forest[row][col] == LIVE_TREE)
             {
                 if (row > 0)
                 {
                     if (col > 0)
                     {
-                        if (forest[row - 1][col - 1] == '*')
+                        if (forest[row - 1][col - 1] == BURNING_TREE)
                         {
                             neighbors++;
                         }
@@ -73,7 +79,7 @@ void updateForest(char forest[][10],
 
                 if (row > 0)
                 {
-                    if (forest[row - 1][col] == '*')
+                    if (forest[row - 1][col] == BURNING_TREE)
                     {
                         neighbors++;
                     }
@@ -83,7 +89,7 @@ void updateForest(char forest[][10],
                 {
                     if (col != size)
                     {
-                        if (forest[row - 1][col + 1] == '*')
+                        if (forest[row - 1][col + 1] == BURNING_TREE)
                         {
                             neighbors++;
                         }
@@ -92,7 +98,7 @@ void updateForest(char forest[][10],
 
                 if (col > 0)
                 {
-                    if (forest[row][col - 1] == '*')
+                    if (forest[row][col - 1] == BURNING_TREE)
                     {
                         neighbors++;
                     }
@@ -100,7 +106,7 @@ void updateForest(char forest[][10],
 
                 if (col != size)
                 {
-                    if (forest[row][col + 1] == '*')
+                    if (forest[row][col + 1] == BURNING_TREE)
                     {
                         neighbors++;
                     }
@@ -110,7 +116,7 @@ void updateForest(char forest[][10],
                 {
                     if (row != size)
                     {
-                        if (forest[row + 1][col - 1] == '*')
+                        if (forest[row + 1][col - 1] == BURNING_TREE)
                         {
                             neighbors++;
                         }
@@ -119,7 +125,7 @@ void updateForest(char forest[][10],
 
                 if (row != size)
                 {
-                    if (forest[row + 1][col] == '*')
+                    if (forest[row + 1][col] == BURNING_TREE)
                     {
                         neighbors++;
                     }
@@ -129,7 +135,7 @@ void updateForest(char forest[][10],
                 {
                     if (col != size)
                     {
-                        if (forest[row + 1][col + 1] == '*')
+                        if (forest[row + 1][col + 1] == BURNING_TREE)
                         {
                             neighbors++;
                         }
@@ -138,7 +144,7 @@ void updateForest(char forest[][10],
 
                 if (neighbors > 0)
                 {
-                    forest[row][col] = '$';
+                    forest[row][col] = HOLD_TREE;
                 }
             }
         }
@@ -174,9 +180,9 @@ void updateForest(char forest[][10],
         {
             for (col = 0; col < size; col++)
             {
-                if (*&forest[row][col] == '*')
+                if (*&forest[row][col] == BURNING_TREE)
                 {
-                    forest[row][col] = '.';
+                    forest[row][col] = BURNED_TREE;
                 }
             }
         }
@@ -189,9 +195,9 @@ void updateForest(char forest[][10],
         {
             for (col = 0; col < size; col++)
             {
-                if (*&forest[row][col] == '$')
+                if (*&forest[row][col] == HOLD_TREE)
                 {
-                    forest[row][col] = '*';
+                    forest[row][col] = BURNING_TREE;
                 }
             }
         }
