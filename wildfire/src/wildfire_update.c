@@ -11,11 +11,12 @@
 
 //void updateForest(char forest[][10],                   int  size)
 
-void updateForest(void *forestx, int size)
+_Bool updateForest(void *forestx, int size)
 {
 	int row, col;
 	double randomProbability;
 	char (*forest)[size] = forestx;
+	_Bool function_STILL_BURNING;
 	/*
 	 *
 	 *   char forest2[size][size];
@@ -53,13 +54,11 @@ void updateForest(void *forestx, int size)
 	 */
 
 	//calculate the probability that the tree's will catch fire
-	//first time through this was between 0, 1, all other times it was, so ran once just to get out of the way
-	randomProbability = (double) rand() / (double) RAND_MAX;
-
 	// to handle the first row, don't have to check above it
 	// to handle the last row, don't have to check below it
 	// to handle the first column, don't have to check to the left
 	// to handle the last column, don't have to check to the right
+	function_STILL_BURNING = 0;
 	for (row = 0; row < size; row++)
 	{
 		for (col = 0; col < size; col++)
@@ -149,9 +148,9 @@ void updateForest(void *forestx, int size)
 
 				if (neighbors >= proportion)
 				{
-					randomProbability = (double) rand() / (double) RAND_MAX;
-					if (randomProbability >= ((double) probability / 100))
-
+					randomProbability = (double) rand()
+							/ ((double) RAND_MAX + 1);
+					if (randomProbability >= ((double) pCatch / 100))
 						forest[row][col] = HOLD_TREE;
 				}
 			}
@@ -182,48 +181,36 @@ void updateForest(void *forestx, int size)
 	 */
 
 	// to update burning tree's to burned tree's
-	for (int cnt = 0; cnt < size; ++cnt)
+	//for (int cnt = 0; cnt < size; ++cnt)
+	//{
+	for (row = 0; row < size; row++)
 	{
-		for (row = 0; row < size; row++)
+		for (col = 0; col < size; col++)
 		{
-			for (col = 0; col < size; col++)
+			if (*&forest[row][col] == BURNING_TREE)
 			{
-				if (*&forest[row][col] == BURNING_TREE)
-				{
-					forest[row][col] = BURNED_TREE;
-				}
+				forest[row][col] = BURNED_TREE;
 			}
 		}
 	}
+	//}
 
-	// to update hold burning tree's to actual burned tree's
-	for (int cnt = 0; cnt < size; ++cnt)
+	// to update hold burning tree's to actual burning tree's
+	//for (int cnt = 0; cnt < size; ++cnt)
+	//{
+	for (row = 0; row < size; row++)
 	{
-		for (row = 0; row < size; row++)
+		for (col = 0; col < size; col++)
 		{
-			for (col = 0; col < size; col++)
+			if (*&forest[row][col] == HOLD_TREE)
 			{
-				if (*&forest[row][col] == HOLD_TREE)
-				{
-					forest[row][col] = BURNING_TREE;
-				}
+				forest[row][col] = BURNING_TREE;
+				function_STILL_BURNING = 1;
 			}
 		}
 	}
+	//}
 
-	/*
-	 *   printf("forest3\n");
-	 *   for (int i = 0; i < size; i++)
-	 *   {
-	 *       for (int i2 = 0; i2 < size; i2++)
-	 *       {
-	 *           printf("%c", forest3[i][i2]);
-	 *       }
-	 *
-	 *       puts(" ");
-	 *   }
-	 */
-	return;
+	return (function_STILL_BURNING);
 }
 
-//~ Formatted by Jindent --- http://www.jindent.com

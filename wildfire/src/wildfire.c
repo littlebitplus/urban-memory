@@ -27,6 +27,7 @@
 #include <getopt.h>
 #include <stdbool.h>
 #include "wildfire.h"
+#include <time.h>
 
 // GLOBAL VARIABLES DEFINED IN HEADER, ASSIGNED VALUES IN WILDFIRE
 const char EMPTY = ' ';
@@ -42,35 +43,16 @@ _Bool DEFAULT_PRINT_COUNT = 1;
 int DEFAULT_CYCLES = 10;    // wasn't specified but i needed for testing
 int DEFAULT_SIZE = 20;
 int burn = -1;
-int probability = -1;
+int pCatch = -1;
 int density = -1;
 int proportion = -1;
 int size = -1;
 int cycles = -1;
 int option = 0;
+double randomDensity;
+double randomBurning;
 
-void print_usage()
-{
-	fprintf(stderr, "usage: wildfire [options]\n");
-	fprintf(stderr,
-			"By default, the simulation runs in overlay display mode.\n");
-	fprintf(stderr,
-			"The -pN option makes the simulation run in print mode for up to N cycles.\n");
-	fprintf(stderr, "\n");
-	fprintf(stderr, "Simulation Configuration Options:\n");
-	fprintf(stderr, " -H  # View simulation options and quit.\n");
-	fprintf(stderr,
-			" -bN # proportion that a tree is already burning. 0 < N < 101.\n");
-	fprintf(stderr,
-			" -cN # probability that a tree will catch fire. 0 < N < 101.\n");
-	fprintf(stderr,
-			" -dN # density/proportion of trees in the grid. 0 < N < 101.\n");
-	fprintf(stderr,
-			" -nN # proportion of neighbors that influence a tree catching fire. -1 < N < 101.\n");
-	fprintf(stderr,
-			" -pN # number of cycles to print before quitting. -1 < N < ...\n");
-	fprintf(stderr, " -sN # simulation grid size. 4 < N < 41.\n");
-}
+
 
 int main(int argc, char * argv[])
 {
@@ -91,34 +73,22 @@ int main(int argc, char * argv[])
 			exit(EXIT_SUCCESS);
 		case 'b':
 			burn = atoi(optarg);
-
 			break;
-
 		case 'c':
-			probability = atoi(optarg);
-
+			pCatch = atoi(optarg);
 			break;
-
 		case 'd':
 			density = atoi(optarg);
-
 			break;
-
 		case 'n':
 			proportion = atoi(optarg);
-
 			break;
-
 		case 'p':
 			cycles = atoi(optarg);
-
 			break;
-
 		case 's':
 			size = atoi(optarg);
-
 			break;
-
 		default:
 			print_usage();
 			exit(EXIT_FAILURE);
@@ -137,11 +107,11 @@ int main(int argc, char * argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	if (probability == -1)
+	if (pCatch == -1)
 	{
-		probability = DEFAULT_PROB_CATCH;
+		pCatch = DEFAULT_PROB_CATCH;
 	}
-	else if ((probability < 1) || (probability > 100))
+	else if ((pCatch < 1) || (pCatch > 100))
 	{
 		fprintf(stderr,
 				"(-cN) probability a tree will catch fire. must be an integer in [1...100].\n");
@@ -199,28 +169,25 @@ int main(int argc, char * argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	/*
+	 * create the forest of the correct size
+	 */
 	char forest[size][size];
 
-	// printf("here\n");
-	// load up forest
-	double randomDensity;
-	double randomBurning;
-
-	randomDensity = (double) rand() / (double) RAND_MAX;  //run extra time
-	randomBurning = (double) rand() / (double) RAND_MAX;  //run extra time
-
-
-
+	/*
+	 * load up forest
+	 */
+	srand(time(NULL));
 
 	for (int i = 0; i < size; i++)
 	{
 		for (int i2 = 0; i2 < size; i2++)
 		{
-			randomDensity = (double) rand() / (double) RAND_MAX;
-			if (randomDensity >= ((double) density / 100))
+			randomDensity = (double) rand() / ((double) RAND_MAX + 1);
+			if (randomDensity < ((double) density / 100))
 			{
-				randomBurning = (double) rand() / (double) RAND_MAX;
-				if (randomBurning >= ((double) burn / 100))
+				randomBurning = (double) rand() / ((double) RAND_MAX + 1);
+				if (randomBurning < ((double) burn / 100))
 				{
 					forest[i][i2] = BURNING_TREE;
 				}
@@ -228,59 +195,84 @@ int main(int argc, char * argv[])
 				{
 					forest[i][i2] = LIVE_TREE;
 				}
-
 			}
-
+			else
+			{
+				forest[i][i2] = EMPTY;
+			}
 		}
 	}
 
-	// put in 1 burning tree
-	//forest[size / 2][size / 2] = BURNING_TREE;
+	/*
+	 * Print header lines though not sure what exactly they're to be
+	 */
+	printf("The program cleared the screen here\n");
+	printf("header 22222\n");
+	puts(" ");
 
-	// printf("%c\n",forest [5][4]);
-	// printf("%c\n",forest [size/2][size/2]);
-	// print out forest
-	printf("forest in wildfire\n");
+	/*
+	 * print out forest
+	 */
+	int countLiveTree = 0;
+	int countBurningTree = 0;
+
+	puts(" ");
+	puts(" ");
+	printf("@@@@@ cycle #0 @@@@@\n");
+	puts(" ");
 
 	for (int i = 0; i < size; i++)
 	{
 		for (int i2 = 0; i2 < size; i2++)
 		{
 			printf("%c", forest[i][i2]);
+			if (forest[i][i2] == LIVE_TREE)
+				countLiveTree++;
+			if (forest[i][i2] == BURNING_TREE)
+				countBurningTree++;
 		}
-
 		puts(" ");
 	}
 
-	puts("---------");
-	printf("size = %i\n", size);
+	printf("count live trees = %i, count burning trees = %i\n", countLiveTree,
+			countBurningTree);
 
-	//   double r2 = .345;
+	/*
+	 *
+	 * Loop through the cycles - main work done here
+	 *
+	 */
+	_Bool main_STILL_BURNING = 0;
 
-	// loop through cycles
 	for (int cnt = 1; cnt < cycles + 1; cnt++)
 	{
-		//   	r2 = (double)rand() / (double)RAND_MAX ;
-		updateForest(forest, size);
-		printf("cycle #%i\n", cnt);
+		main_STILL_BURNING = updateForest(forest, size);	//main working function
 
-		// print out forest
+		puts(" ");
+		puts(" ");
+		printf("@@@@@ cycle #%i @@@@@\n", cnt);
+		puts(" ");
+		/*
+		 * print out forest
+		 */
 		for (int i = 0; i < size; i++)
 		{
 			for (int i2 = 0; i2 < size; i2++)
 			{
 				printf("%c", forest[i][i2]);
 			}
-
 			puts(" ");
 		}
+		if (main_STILL_BURNING == 0)
+			cnt = 99999999;
 	}
 
-	printf("The program cleared the screen here\n");
-	printf("header 22222\n");
+	/*
+	 * Print footer lines
+	 */
 	printf(
 			"size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
-			size, (double) probability / 100, (double) density / 100,
+			size, (double) pCatch / 100, (double) density / 100,
 			(double) proportion / 100, (double) burn / 100);
 	printf("cycle %i, changes %i, cumulative changes %i\n", cycles, cycles,
 			cycles);
