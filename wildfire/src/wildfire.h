@@ -34,6 +34,8 @@ int proportion;
 int size;
 int cycles;
 int option;
+int changesPerCycle;
+int cummulativeChanges;
 
 #endif /* WILDFIRE_H_ */
 

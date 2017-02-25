@@ -49,6 +49,8 @@ int proportion = -1;
 int size = -1;
 int cycles = -1;
 int option = 0;
+int changesPerCycle = 0;
+int cummulativeChanges = 0;
 double randomDensity;
 double randomBurning;
 
@@ -171,6 +173,7 @@ int main(int argc, char * argv[])
 	 * create the forest of the correct size
 	 */
 	char forest[size][size];
+	int cycles_processed = 0;
 
 	/*
 	 * load up forest
@@ -262,7 +265,11 @@ int main(int argc, char * argv[])
 			puts(" ");
 		}
 		if (main_STILL_BURNING == 0)
-			cnt = 99999999;
+		{
+
+		cycles_processed = cnt;
+		cnt = 99999999;
+		}
 	}
 
 	/*
@@ -272,8 +279,8 @@ int main(int argc, char * argv[])
 			"size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
 			size, (double) pCatch / 100, (double) density / 100,
 			(double) proportion / 100, (double) burn / 100);
-	printf("cycle %i, changes %i, cumulative changes %i\n", cycles, cycles,
-			cycles);
+	printf("cycle %i, changes %i, cumulative changes %i\n", cycles_processed, changesPerCycle,
+			cummulativeChanges);
 	printf("Fires are out\n");
 
 	return EXIT_SUCCESS;

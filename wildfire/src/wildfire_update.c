@@ -22,6 +22,7 @@ _Bool updateForest(void *forestx, int size)
 	// to handle the first column, don't have to check to the left
 	// to handle the last column, don't have to check to the right
 	function_STILL_BURNING = 0;
+	changesPerCycle = 0;
 	for (row = 0; row < size; row++)
 	{
 		for (col = 0; col < size; col++)
@@ -106,13 +107,18 @@ _Bool updateForest(void *forestx, int size)
 						}
 					}
 				}
-
+				//printf("neighbors = %i, proportion = %i\n", neighbors,
+				//		proportion);
 				if (neighbors >= proportion)
 				{
 					randomProbability = (double) random()
 							/ ((double) RAND_MAX + 1);
 					if (randomProbability >= ((double) pCatch / 100))
+					{
 						forest[row][col] = HOLD_TREE;
+						changesPerCycle++;
+						cummulativeChanges++;
+					}
 				}
 			}
 		}
