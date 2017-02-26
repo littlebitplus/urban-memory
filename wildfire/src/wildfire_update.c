@@ -27,9 +27,8 @@ _Bool updateForest(void *forestx, int size)
 	{
 		for (col = 0; col < size; col++)
 		{
-
 			int neighbors = 0;
-
+			int minBurningNeighbors = 0;
 			if (*&forest[row][col] == LIVE_TREE)
 			{
 				if (row > 0)
@@ -53,7 +52,7 @@ _Bool updateForest(void *forestx, int size)
 
 				if (row > 0)
 				{
-					if (col != size)
+					if (col != size - 1)
 					{
 						if (forest[row - 1][col + 1] == BURNING_TREE)
 						{
@@ -70,7 +69,7 @@ _Bool updateForest(void *forestx, int size)
 					}
 				}
 
-				if (col != size)
+				if (col != size - 1)
 				{
 					if (forest[row][col + 1] == BURNING_TREE)
 					{
@@ -80,7 +79,7 @@ _Bool updateForest(void *forestx, int size)
 
 				if (col > 0)
 				{
-					if (row != size)
+					if (row != size -1)
 					{
 						if (forest[row + 1][col - 1] == BURNING_TREE)
 						{
@@ -89,7 +88,7 @@ _Bool updateForest(void *forestx, int size)
 					}
 				}
 
-				if (row != size)
+				if (row != size -1)
 				{
 					if (forest[row + 1][col] == BURNING_TREE)
 					{
@@ -97,9 +96,9 @@ _Bool updateForest(void *forestx, int size)
 					}
 				}
 
-				if (row != size)
+				if (row != size -1)
 				{
-					if (col != size)
+					if (col != size -1)
 					{
 						if (forest[row + 1][col + 1] == BURNING_TREE)
 						{
@@ -107,42 +106,41 @@ _Bool updateForest(void *forestx, int size)
 						}
 					}
 				}
-				//printf("neighbors = %i, proportion = %i\n", neighbors,
-				//		proportion);
+
 				/*
 				 * calculate the proportion of neighbors needed to set this off, since row 0 col 0 have less neighbors possible
 				 */
 
-				if (row == 0 || row == size)
+				if (row == 0 || row == size -1)
 				{
-					if (col == 0 || col == size)
+					if (col == 0 || col == size -1)
 					{
-						pNeighbors = (3 * ((double) pNeighbors / 100));
-					} else
-					{
-						pNeighbors = (5 * ((double) pNeighbors / 100));
+						minBurningNeighbors = (3 * ((double) pNeighbors / 100));
 					}
-				} else
-				{
-					if (col == 0 || col == size)
+					else
 					{
-						pNeighbors = (5 * ((double) pNeighbors / 100));
-					} else
-					{
-						pNeighbors = (8 * ((double) pNeighbors / 100));
+						minBurningNeighbors = (5 * ((double) pNeighbors / 100));
 					}
 				}
+				else
+				{
+					if (col == 0 || col == size -1)
+					{
+						minBurningNeighbors = (5 * ((double) pNeighbors / 100));
+					}
+					else
+					{
+						minBurningNeighbors = (8 * ((double) pNeighbors / 100));
+					}
+				}
+				if (minBurningNeighbors == 0)		//to make it so if the percentage is less than 1
+					minBurningNeighbors = 100;    	//(which will = 0) it won't match
 
-
-
-
-				//pNeighbors = (8 * ((double) pNeighbors / 100));
-
-				if (neighbors >= pNeighbors)
+				if (neighbors >= minBurningNeighbors)
 				{
 					randomProbability = (double) random()
 							/ ((double) RAND_MAX + 1);
-					if (randomProbability >= ((double) pCatch / 100))
+					if (randomProbability <= ((double) pCatch / 100))
 					{
 						forest[row][col] = HOLD_TREE;
 						changesPerCycle++;

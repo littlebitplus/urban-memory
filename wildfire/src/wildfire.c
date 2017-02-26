@@ -118,7 +118,6 @@ int main(int argc, char * argv[])
 		}
 		//puts(" ");
 	}
-
 	printf("count live trees = %i, count burning trees = %i\n", countLiveTree,
 			countBurningTree);
 	puts(" ");
@@ -132,17 +131,6 @@ int main(int argc, char * argv[])
 
 	for (int cnt = 0; cnt < cycles; cnt++)
 	{
-		/*
-		 * Print header lines
-		 */
-		printf(
-				"size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
-				size, (double) pCatch / 100, (double) density / 100,
-				(double) burn / 100, (double) pNeighbors / 100);
-		printf("cycle %i, changes %i, cumulative changes %i\n", cnt,
-				changesPerCycle, cummulativeChanges);
-
-		main_STILL_BURNING = updateForest(forest, size);//main working function
 
 		/*
 		 * print out forest
@@ -155,6 +143,20 @@ int main(int argc, char * argv[])
 			}
 			puts(" ");
 		}
+
+		/*
+		 * Print header lines
+		 */
+		printf(
+				"size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
+				size, (double) pCatch / 100, (double) density / 100,
+				(double) burn / 100, (double) pNeighbors / 100);
+		printf("cycle %i, changes %i, cumulative changes %i\n", cnt,
+				changesPerCycle, cummulativeChanges);
+
+
+		main_STILL_BURNING = updateForest(forest, size);//main working function
+
 
 		/*
 		 * poor mans way to end for now
