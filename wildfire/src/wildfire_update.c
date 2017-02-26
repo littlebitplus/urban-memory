@@ -2,7 +2,7 @@
  * wildfire_update.c
  *
  *  Created on: Feb 24, 2017
- *      Author: halburt
+ *      Author:
  */
 
 #include <stdio.h>
@@ -16,19 +16,25 @@ _Bool updateForest(void *forestx, int size)
 	char (*forest)[size] = forestx;
 	_Bool function_STILL_BURNING;
 
-	//calculate the probability that the tree's will catch fire
-	// to handle the first row, don't have to check above it
-	// to handle the last row, don't have to check below it
-	// to handle the first column, don't have to check to the left
-	// to handle the last column, don't have to check to the right
 	function_STILL_BURNING = 0;
 	changesPerCycle = 0;
+
+	/*
+	 * calculate the probability that the tree's will catch fire
+	 * to handle the first row, don't have to check above it
+	 * to handle the last row, don't have to check below it
+	 * to handle the first column, don't have to check to the left
+	 * to handle the last column, don't have to check to the right
+	 *
+	 */
+
 	for (row = 0; row < size; row++)
 	{
 		for (col = 0; col < size; col++)
 		{
 			int neighbors = 0;
 			int minBurningNeighbors = 0;
+
 			if (*&forest[row][col] == LIVE_TREE)
 			{
 				if (row > 0)
@@ -79,7 +85,7 @@ _Bool updateForest(void *forestx, int size)
 
 				if (col > 0)
 				{
-					if (row != size -1)
+					if (row != size - 1)
 					{
 						if (forest[row + 1][col - 1] == BURNING_TREE)
 						{
@@ -88,7 +94,7 @@ _Bool updateForest(void *forestx, int size)
 					}
 				}
 
-				if (row != size -1)
+				if (row != size - 1)
 				{
 					if (forest[row + 1][col] == BURNING_TREE)
 					{
@@ -96,9 +102,9 @@ _Bool updateForest(void *forestx, int size)
 					}
 				}
 
-				if (row != size -1)
+				if (row != size - 1)
 				{
-					if (col != size -1)
+					if (col != size - 1)
 					{
 						if (forest[row + 1][col + 1] == BURNING_TREE)
 						{
@@ -111,9 +117,9 @@ _Bool updateForest(void *forestx, int size)
 				 * calculate the proportion of neighbors needed to set this off, since row 0 col 0 have less neighbors possible
 				 */
 
-				if (row == 0 || row == size -1)
+				if (row == 0 || row == size - 1)
 				{
-					if (col == 0 || col == size -1)
+					if (col == 0 || col == size - 1)
 					{
 						minBurningNeighbors = (3 * ((double) pNeighbors / 100));
 					}
@@ -124,7 +130,7 @@ _Bool updateForest(void *forestx, int size)
 				}
 				else
 				{
-					if (col == 0 || col == size -1)
+					if (col == 0 || col == size - 1)
 					{
 						minBurningNeighbors = (5 * ((double) pNeighbors / 100));
 					}
@@ -133,8 +139,8 @@ _Bool updateForest(void *forestx, int size)
 						minBurningNeighbors = (8 * ((double) pNeighbors / 100));
 					}
 				}
-				if (minBurningNeighbors == 0)		//to make it so if the percentage is less than 1
-					minBurningNeighbors = 100;    	//(which will = 0) it won't match
+				if (minBurningNeighbors == 0) //to make it so if the percentage is less than 1
+					minBurningNeighbors = 100; //(which will = 0) it won't match
 
 				if (neighbors >= minBurningNeighbors)
 				{
@@ -142,10 +148,9 @@ _Bool updateForest(void *forestx, int size)
 							/ ((double) RAND_MAX + 1);
 					if (randomProbability <= ((double) pCatch / 100))
 					{
-						forest[row][col] = HOLD_TREE;
+						forest[row][col] = HOLD_TREE;		//set to temp value first
 						changesPerCycle++;
 						cummulativeChanges++;
-						//printf("changesPerCycle = %i, cummulatvieChanges = %i\n", changesPerCycle, cummulativeChanges);
 					}
 				}
 			}
@@ -180,7 +185,7 @@ _Bool updateForest(void *forestx, int size)
 			if (*&forest[row][col] == HOLD_TREE)
 			{
 				forest[row][col] = BURNING_TREE;
-				function_STILL_BURNING = 1;
+				function_STILL_BURNING = 1;				//if any are still burning, continue run
 			}
 		}
 	}

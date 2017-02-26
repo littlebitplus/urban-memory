@@ -2,7 +2,7 @@
  * commandArguments.c
  *
  *  Created on: Feb 26, 2017
- *      Author: halburt
+ *      Author:
  */
 
 #include <stdio.h>
@@ -10,15 +10,16 @@
 #include "wildfire.h"
 #include <unistd.h>
 
-
 void commandArguments(int argc, char * argv[])
 {
 
-	// printf ("Number of arguments = %i\n", argc);
-	// Specifying the expected options
-	// The two options h and H do not expect any numbers after them
-	// the options b, c, d, n, p and s, if used, need a number ... i.e. -b11 -p2
-	while ((option = getopt(argc, argv, "Hhb:c:d:n:p:s")) != -1)
+/*
+ * The two options "h" and "H" do not expect anything else after them
+ * where the options b, c, d, n, p and s, if used, need a number ... i.e. -b11 -p2
+ *
+ */
+
+	while ((option = getopt(argc, argv, "Hhb:c:d:n:p:s:")) != -1)
 	{
 		switch (option)
 		{
@@ -99,8 +100,6 @@ void commandArguments(int argc, char * argv[])
 		print_usage();
 		exit(EXIT_FAILURE);
 	}
-//need to work on this, since isn't always going to be 8 neighbors, but for now....
-	//pNeighbors = (8 * ((double) pNeighbors / 100));
 
 	if (cycles == -1)
 	{

@@ -2,23 +2,41 @@
  * wildfire.h
  *
  *  Created on: Feb 24, 2017
- *      Author: halburt
+ *      Author:
  */
 
 #ifndef WILDFIRE_H_
 #define WILDFIRE_H_
-//void updateForest(char forest[][10],
-//                  int  size);
 
+
+/*
+ * function to print usage of command line
+ */
 void print_usage();
+
+
+/*
+ * function to retrieve command line arguments
+ */
+void commandArguments(int argc, char * argv[]);
+
+
+/*
+ * function to load the initial forest
+ */
+void loadForest(void *forestx, int size);
+
+
+/*
+ * function to update the forest values
+ */
 _Bool updateForest(void *forestx, int size);
 
 
-void commandArguments(int argc, char * argv[]);
-
-// GLOBAL DEFINTIONS
+/*
+ * GLOBAL DEFINITIONS
+ */
 const char EMPTY;
-;
 const char LIVE_TREE;
 const char BURNING_TREE;
 const char BURNED_TREE;
@@ -41,5 +59,3 @@ int changesPerCycle;
 int cummulativeChanges;
 
 #endif /* WILDFIRE_H_ */
-
-//~ Formatted by Jindent --- http://www.jindent.com
