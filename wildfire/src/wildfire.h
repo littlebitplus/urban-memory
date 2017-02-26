@@ -13,6 +13,9 @@
 void print_usage();
 _Bool updateForest(void *forestx, int size);
 
+
+void commandArguments(int argc, char * argv[]);
+
 // GLOBAL DEFINTIONS
 const char EMPTY;
 ;
@@ -30,7 +33,7 @@ int DEFAULT_SIZE;
 int burn;
 int pCatch;
 int density;
-int proportion;
+int pNeighbors;
 int size;
 int cycles;
 int option;

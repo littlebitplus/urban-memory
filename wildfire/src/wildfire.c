@@ -45,7 +45,7 @@ int DEFAULT_SIZE = 10;
 int burn = -1;
 int pCatch = -1;
 int density = -1;
-int proportion = -1;
+int pNeighbors = -1;
 int size = -1;
 int cycles = -1;
 int option = 0;
@@ -57,129 +57,25 @@ double randomBurning;
 int main(int argc, char * argv[])
 {
 
-	// printf ("Number of arguments = %i\n", argc);
-	// Specifying the expected options
-	// The two options h and H do not expect any numbers after them
-	// the options b, c, d, n, p and s, if used, need a number ... i.e. -b11 -p2
-	while ((option = getopt(argc, argv, "Hhb:c:d:n:p:s")) != -1)
-	{
-		switch (option)
-		{
-		case 'H':
-			print_usage();
-			exit(EXIT_SUCCESS);
-		case 'h':
-			print_usage();
-			exit(EXIT_SUCCESS);
-		case 'b':
-			burn = atoi(optarg);
-			break;
-		case 'c':
-			pCatch = atoi(optarg);
-			break;
-		case 'd':
-			density = atoi(optarg);
-			break;
-		case 'n':
-			proportion = atoi(optarg);
-			break;
-		case 'p':
-			cycles = atoi(optarg);
-			break;
-		case 's':
-			size = atoi(optarg);
-			break;
-		default:
-			print_usage();
-			exit(EXIT_FAILURE);
-		}
-	}
+	/*
+	 * bring in command line arguments, and set parameters
+	 */
 
-	if (burn == -1)
-	{
-		burn = DEFAULT_BURN;
-	}
-	else if ((burn < 1) || (burn > 100))
-	{
-		fprintf(stderr,
-				"(-bN) proportion already burning. must be an integer in [1...100].\n");
-		print_usage();
-		exit(EXIT_FAILURE);
-	}
-
-	if (pCatch == -1)
-	{
-		pCatch = DEFAULT_PROB_CATCH;
-	}
-	else if ((pCatch < 1) || (pCatch > 100))
-	{
-		fprintf(stderr,
-				"(-cN) probability a tree will catch fire. must be an integer in [1...100].\n");
-		print_usage();
-		exit(EXIT_FAILURE);
-	}
-
-	if (density == -1)
-	{
-		density = DEFAULT_DENSITY;
-	}
-	else if ((density < 1) || (density > 100))
-	{
-		fprintf(stderr,
-				"(-dN) density of trees in the grid must be an integer in [1...100].\n");
-		print_usage();
-		exit(EXIT_FAILURE);
-	}
-
-	if (proportion == -1)
-	{
-		proportion = DEFAULT_PROP_NEIGHBOR;
-	}
-	else if ((proportion < 0) || (proportion > 100))
-	{
-		fprintf(stderr,
-				"(-nN) %%neighbors influence catching fire must be an integer in [0...100].\n");
-		print_usage();
-		exit(EXIT_FAILURE);
-	}
-//need to work on this, since isn't always going to be 8 neighbors, but for now....
-	proportion = (8 * ((double) proportion / 100));
-
-	if (cycles == -1)
-	{
-		cycles = DEFAULT_CYCLES;
-	}
-	else if ((cycles < 0) || (cycles > 10000))
-	{
-		fprintf(stderr,
-				"(-pN) number of cycles to print. must be an integer in [0...10000].\n");
-		print_usage();
-		exit(EXIT_FAILURE);
-	}
-
-	if (size == -1)
-	{
-		size = DEFAULT_SIZE;
-	}
-	else if ((size < 5) || (size > 40))
-	{
-		fprintf(stderr,
-				"(-sN) simulation grid size must be an integer in [5...40].\n");
-		print_usage();
-		exit(EXIT_FAILURE);
-	}
+	commandArguments(argc, argv);
 
 	/*
 	 * create the forest of the correct size
 	 */
+
 	char forest[size][size];
-	int cycles_processed = 0;
 
 	/*
 	 * load up forest
 	 */
-	srandom(time(0));
-	srandom(41);	//for consistent testing
+
+	//srandom(time(0));
+	//srandom(41);	//for consistent testing
+	srandom(33);	//for consistent testing
 	for (int i = 0; i < size; i++)
 	{
 		for (int i2 = 0; i2 < size; i2++)
@@ -205,38 +101,27 @@ int main(int argc, char * argv[])
 	}
 
 	/*
-	 * Print header lines though not sure what exactly they're to be
-	 */
-	printf("The program cleared the screen here\n");
-	printf("header 22222\n");
-	puts(" ");
-
-	/*
-	 * print out forest
+	 * print out info about trees for debug
 	 */
 	int countLiveTree = 0;
 	int countBurningTree = 0;
-
-	puts(" ");
-	puts(" ");
-	printf("@@@@@ cycle #0 @@@@@\n");
-	puts(" ");
 
 	for (int i = 0; i < size; i++)
 	{
 		for (int i2 = 0; i2 < size; i2++)
 		{
-			printf("%c", forest[i][i2]);
+			//printf("%c", forest[i][i2]);
 			if (forest[i][i2] == LIVE_TREE)
 				countLiveTree++;
 			if (forest[i][i2] == BURNING_TREE)
 				countBurningTree++;
 		}
-		puts(" ");
+		//puts(" ");
 	}
 
 	printf("count live trees = %i, count burning trees = %i\n", countLiveTree,
 			countBurningTree);
+	puts(" ");
 
 	/*
 	 *
@@ -245,14 +130,20 @@ int main(int argc, char * argv[])
 	 */
 	_Bool main_STILL_BURNING = 0;
 
-	for (int cnt = 1; cnt < cycles + 1; cnt++)
+	for (int cnt = 0; cnt < cycles; cnt++)
 	{
+		/*
+		 * Print header lines
+		 */
+		printf(
+				"size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
+				size, (double) pCatch / 100, (double) density / 100,
+				(double) burn / 100, (double) pNeighbors / 100);
+		printf("cycle %i, changes %i, cumulative changes %i\n", cnt,
+				changesPerCycle, cummulativeChanges);
+
 		main_STILL_BURNING = updateForest(forest, size);//main working function
 
-		puts(" ");
-		puts(" ");
-		printf("@@@@@ cycle #%i @@@@@\n", cnt);
-		puts(" ");
 		/*
 		 * print out forest
 		 */
@@ -264,23 +155,20 @@ int main(int argc, char * argv[])
 			}
 			puts(" ");
 		}
+
+		/*
+		 * poor mans way to end for now
+		 */
 		if (main_STILL_BURNING == 0)
 		{
-
-		cycles_processed = cnt;
-		cnt = 99999999;
+			cnt = 99999999;
 		}
 	}
 
 	/*
 	 * Print footer lines
 	 */
-	printf(
-			"size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
-			size, (double) pCatch / 100, (double) density / 100,
-			(double) proportion / 100, (double) burn / 100);
-	printf("cycle %i, changes %i, cumulative changes %i\n", cycles_processed, changesPerCycle,
-			cummulativeChanges);
+
 	printf("Fires are out\n");
 
 	return EXIT_SUCCESS;

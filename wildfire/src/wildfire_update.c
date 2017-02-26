@@ -109,7 +109,36 @@ _Bool updateForest(void *forestx, int size)
 				}
 				//printf("neighbors = %i, proportion = %i\n", neighbors,
 				//		proportion);
-				if (neighbors >= proportion)
+				/*
+				 * calculate the proportion of neighbors needed to set this off, since row 0 col 0 have less neighbors possible
+				 */
+
+				if (row == 0 || row == size)
+				{
+					if (col == 0 || col == size)
+					{
+						pNeighbors = (3 * ((double) pNeighbors / 100));
+					} else
+					{
+						pNeighbors = (5 * ((double) pNeighbors / 100));
+					}
+				} else
+				{
+					if (col == 0 || col == size)
+					{
+						pNeighbors = (5 * ((double) pNeighbors / 100));
+					} else
+					{
+						pNeighbors = (8 * ((double) pNeighbors / 100));
+					}
+				}
+
+
+
+
+				//pNeighbors = (8 * ((double) pNeighbors / 100));
+
+				if (neighbors >= pNeighbors)
 				{
 					randomProbability = (double) random()
 							/ ((double) RAND_MAX + 1);
@@ -118,6 +147,7 @@ _Bool updateForest(void *forestx, int size)
 						forest[row][col] = HOLD_TREE;
 						changesPerCycle++;
 						cummulativeChanges++;
+						//printf("changesPerCycle = %i, cummulatvieChanges = %i\n", changesPerCycle, cummulativeChanges);
 					}
 				}
 			}
@@ -135,6 +165,8 @@ _Bool updateForest(void *forestx, int size)
 			if (*&forest[row][col] == BURNING_TREE)
 			{
 				forest[row][col] = BURNED_TREE;
+				changesPerCycle++;
+				cummulativeChanges++;
 			}
 		}
 	}
