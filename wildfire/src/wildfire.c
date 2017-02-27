@@ -49,11 +49,8 @@ int option = 0;
 int changesPerCycle = 0;
 int cummulativeChanges = 0;
 
-
 //LOCAL VARIABLES
 _Bool main_STILL_BURNING = 0;
-
-
 
 int main(int argc, char * argv[])
 {
@@ -69,6 +66,7 @@ int main(int argc, char * argv[])
 	 */
 
 	char forest[size][size];
+	char forestTwo[size][size];
 
 	/*
 	 * load the forest with live and burning trees, and empty spaces
@@ -77,13 +75,57 @@ int main(int argc, char * argv[])
 	loadForest(forest, size);
 
 	/*
-	 * Loop through the cycles - main work done here  -  only focued on print case, not display assignment
+	 * print out forest
 	 */
+	for (int i = 0; i < size; i++)
+	{
+		for (int i2 = 0; i2 < size; i2++)
+		{
+			printf("%c", forest[i][i2]);
+		}
+		puts(" ");
+	}
 
+
+
+	/*
+	 * Loop through the cycles - main work done here  -  only focused on print case, not display assignment
+	 */
+	int loopCnt = 0;
 	for (int cnt = 0; cnt < cycles; cnt++)
 	{
+
 		/*
-		 * print out forest
+		 * Print lines within loop
+		 */
+		printf(
+				"size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
+				size, (double) pCatch / 100, (double) density / 100,
+				(double) burn / 100, (double) pNeighbors / 100);
+		printf("cycle %i, changes %i, cumulative changes %i\n", loopCnt,
+				changesPerCycle, cummulativeChanges);
+
+
+		/*
+		 * copy forest
+		 */
+		for (int i = 0; i < size; i++)
+		{
+			for (int i2 = 0; i2 < size; i2++)
+			{
+				forestTwo[i][i2] = forest[i][i2];
+			}
+			puts(" ");
+		}
+
+		/*
+		 * Update the forest with changes
+		 */
+
+		main_STILL_BURNING = updateForest(forest, forestTwo, size); //main working function
+
+		/*
+		 * print out forest within loop
 		 */
 		for (int i = 0; i < size; i++)
 		{
@@ -93,25 +135,15 @@ int main(int argc, char * argv[])
 			}
 			puts(" ");
 		}
-		/*
-		 * Print header lines
-		 */
-		printf(
-				"size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
-				size, (double) pCatch / 100, (double) density / 100,
-				(double) burn / 100, (double) pNeighbors / 100);
-		printf("cycle %i, changes %i, cumulative changes %i\n", cnt,
-				changesPerCycle, cummulativeChanges);
-		/*
-		 * Update the forest with changes
-		 */
 
-		main_STILL_BURNING = updateForest(forest, size); //main working function
+		/*
+		 * increment loop counter since breaking loop by making cnt 9999999
+		 */
+		loopCnt++;
 
 		/*
 		 * poor mans way to end for now
 		 */
-
 		if (main_STILL_BURNING == 0)
 		{
 			cnt = 99999999;
@@ -119,9 +151,14 @@ int main(int argc, char * argv[])
 	}
 
 	/*
-	 * Print closing line
+	 * Print closing lines
 	 */
-
+	printf(
+			"size %i, pCatch %.2f, density %.2f, pBurning %.2f, pNeighbor %.2f\n",
+			size, (double) pCatch / 100, (double) density / 100,
+			(double) burn / 100, (double) pNeighbors / 100);
+	printf("cycle %i, changes %i, cumulative changes %i\n", loopCnt,
+			changesPerCycle, cummulativeChanges);
 	printf("Fires are out\n");
 
 	return EXIT_SUCCESS;

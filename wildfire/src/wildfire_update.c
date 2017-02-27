@@ -9,11 +9,12 @@
 #include <stdlib.h>
 #include "wildfire.h"
 
-_Bool updateForest(void *forestx, int size)
+_Bool updateForest(void *forestx, *foresty, int size)
 {
 	int row, col;
 	double randomProbability;
 	char (*forest)[size] = forestx;
+	char (*forestTwo)[size] = foresty;
 	_Bool function_STILL_BURNING;
 
 	function_STILL_BURNING = 0;
@@ -140,7 +141,7 @@ _Bool updateForest(void *forestx, int size)
 					}
 				}
 				if (minBurningNeighbors == 0) //to make it so if the percentage is less than 1
-					minBurningNeighbors = 100; //(which will = 0) it won't match
+					minBurningNeighbors = 1; //(which will = 0) it won't match
 
 				if (neighbors >= minBurningNeighbors)
 				{
@@ -189,6 +190,8 @@ _Bool updateForest(void *forestx, int size)
 			}
 		}
 	}
+
+
 
 	return (function_STILL_BURNING);
 }

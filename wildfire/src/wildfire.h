@@ -24,7 +24,7 @@ void commandArguments(int argc, char * argv[]);
 /*
  * function to load the initial forest
  */
-void loadForest(void *forestx, int size);
+void loadForest(void *forestx, *foresty, int size);
 
 
 /*
