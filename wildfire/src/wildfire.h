@@ -8,30 +8,25 @@
 #ifndef WILDFIRE_H_
 #define WILDFIRE_H_
 
-
 /*
  * function to print usage of command line
  */
 void print_usage();
-
 
 /*
  * function to retrieve command line arguments
  */
 void commandArguments(int argc, char * argv[]);
 
-
 /*
  * function to load the initial forest
  */
-void loadForest(void *forestx, *foresty, int size);
-
+void loadForest(void *forestx, int size);
 
 /*
  * function to update the forest values
  */
-_Bool updateForest(void *forestx, int size);
-
+_Bool updateForest(void *forestx, void *foresty, int size);
 
 /*
  * GLOBAL DEFINITIONS
@@ -53,6 +48,7 @@ int pCatch;
 int density;
 int pNeighbors;
 int size;
+int assignment;
 int cycles;
 int option;
 int changesPerCycle;

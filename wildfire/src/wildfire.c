@@ -44,6 +44,7 @@ int pCatch = -1;
 int density = -1;
 int pNeighbors = -1;
 int size = -1;
+int assignment = 1;
 int cycles = -1;
 int option = 0;
 int changesPerCycle = 0;
@@ -66,12 +67,11 @@ int main(int argc, char * argv[])
 	 */
 
 	char forest[size][size];
-	char forestTwo[size][size];
+	char forestTwo[size][size];	//for assignment 6 - two time cycles
 
 	/*
 	 * load the forest with live and burning trees, and empty spaces
 	 */
-
 	loadForest(forest, size);
 
 	/*
@@ -86,7 +86,18 @@ int main(int argc, char * argv[])
 		puts(" ");
 	}
 
-
+	/*
+	 * copy forest for assignment 6
+	 */
+	for (int i = 0; i < size; i++)
+	{
+		for (int i2 = 0; i2 < size; i2++)
+		{
+			forestTwo[i][i2] = forest[i][i2];
+			if (forestTwo[i][i2] == BURNING_TREE)
+				forestTwo[i][i2] = LIVE_TREE;
+		}
+	}
 
 	/*
 	 * Loop through the cycles - main work done here  -  only focused on print case, not display assignment
@@ -105,23 +116,9 @@ int main(int argc, char * argv[])
 		printf("cycle %i, changes %i, cumulative changes %i\n", loopCnt,
 				changesPerCycle, cummulativeChanges);
 
-
-		/*
-		 * copy forest
-		 */
-		for (int i = 0; i < size; i++)
-		{
-			for (int i2 = 0; i2 < size; i2++)
-			{
-				forestTwo[i][i2] = forest[i][i2];
-			}
-			puts(" ");
-		}
-
 		/*
 		 * Update the forest with changes
 		 */
-
 		main_STILL_BURNING = updateForest(forest, forestTwo, size); //main working function
 
 		/*

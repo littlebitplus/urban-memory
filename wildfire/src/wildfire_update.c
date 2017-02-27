@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include "wildfire.h"
 
-_Bool updateForest(void *forestx, *foresty, int size)
+_Bool updateForest(void *forestx, void *foresty, int size)
 {
 	int row, col;
 	double randomProbability;
@@ -149,7 +149,7 @@ _Bool updateForest(void *forestx, *foresty, int size)
 							/ ((double) RAND_MAX + 1);
 					if (randomProbability <= ((double) pCatch / 100))
 					{
-						forest[row][col] = HOLD_TREE;		//set to temp value first
+						forest[row][col] = HOLD_TREE; //set to temp value first
 						changesPerCycle++;
 						cummulativeChanges++;
 					}
@@ -168,9 +168,25 @@ _Bool updateForest(void *forestx, *foresty, int size)
 		{
 			if (*&forest[row][col] == BURNING_TREE)
 			{
-				forest[row][col] = BURNED_TREE;
-				changesPerCycle++;
-				cummulativeChanges++;
+				if (assignment == 6)
+				{
+					if (*&forestTwo[row][col] == BURNING_TREE)
+					{
+						forest[row][col] = BURNED_TREE;
+						changesPerCycle++;
+						cummulativeChanges++;
+					}
+					else
+					{
+						forestTwo[row][col] = BURNING_TREE;
+					}
+				}
+				else
+				{
+					forest[row][col] = BURNED_TREE;
+					changesPerCycle++;
+					cummulativeChanges++;
+				}
 			}
 		}
 	}
@@ -186,12 +202,10 @@ _Bool updateForest(void *forestx, *foresty, int size)
 			if (*&forest[row][col] == HOLD_TREE)
 			{
 				forest[row][col] = BURNING_TREE;
-				function_STILL_BURNING = 1;				//if any are still burning, continue run
+				function_STILL_BURNING = 1;	//if any are still burning, continue run
 			}
 		}
 	}
-
-
 
 	return (function_STILL_BURNING);
 }

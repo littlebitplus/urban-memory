@@ -5,9 +5,7 @@
  *      Author: halburt
  */
 
-
 #include <stdio.h>
-
 
 void print_usage()
 {
