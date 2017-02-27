@@ -49,6 +49,7 @@ int density;
 int pNeighbors;
 int size;
 int assignment;
+int lightning;
 int cycles;
 int option;
 int changesPerCycle;

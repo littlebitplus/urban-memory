@@ -153,6 +153,17 @@ _Bool updateForest(void *forestx, void *foresty, int size)
 						changesPerCycle++;
 						cummulativeChanges++;
 					}
+					if (lightning != -1 && forest[row][col] != HOLD_TREE)
+					{
+						if (randomProbability
+								<= (((double) lightning / 100)
+										* ((double) pCatch / 100)))
+						{
+							forest[row][col] = HOLD_TREE; //set to temp value first
+							changesPerCycle++;
+							cummulativeChanges++;
+						}
+					}
 				}
 			}
 		}

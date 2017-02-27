@@ -44,7 +44,8 @@ int pCatch = -1;
 int density = -1;
 int pNeighbors = -1;
 int size = -1;
-int assignment = 1;
+int assignment = -1;
+int lightning = -1;
 int cycles = -1;
 int option = 0;
 int changesPerCycle = 0;
@@ -67,7 +68,7 @@ int main(int argc, char * argv[])
 	 */
 
 	char forest[size][size];
-	char forestTwo[size][size];	//for assignment 6 - two time cycles
+	char forestTwo[size][size];		//for assignment 6 - two time cycles
 
 	/*
 	 * load the forest with live and burning trees, and empty spaces
@@ -93,9 +94,7 @@ int main(int argc, char * argv[])
 	{
 		for (int i2 = 0; i2 < size; i2++)
 		{
-			forestTwo[i][i2] = forest[i][i2];
-			if (forestTwo[i][i2] == BURNING_TREE)
-				forestTwo[i][i2] = LIVE_TREE;
+			forestTwo[i][i2] = EMPTY;
 		}
 	}
 

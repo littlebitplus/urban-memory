@@ -19,7 +19,7 @@ void commandArguments(int argc, char * argv[])
 	 * added -q to handle assingment 6 with two phase cycle -q6
 	 *
 	 */
-	while ((option = getopt(argc, argv, "Hhb:c:d:n:p:s:q:")) != -1)
+	while ((option = getopt(argc, argv, "Hhb:c:d:n:p:s:q:l:")) != -1)
 	{
 		switch (option)
 		{
@@ -49,6 +49,9 @@ void commandArguments(int argc, char * argv[])
 			break;
 		case 'q':
 			assignment = atoi(optarg);
+			break;
+		case 'l':
+			lightning = atoi(optarg);
 			break;
 		default:
 			print_usage();

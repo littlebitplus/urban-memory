@@ -29,29 +29,47 @@ void loadForest(void *forestx, int size)
 	 * load up forest
 	 */
 
-	//srandom(time(0));
-	srandom(41);	//for consistent testing
+	/*
+	 * allow for option of fully loaded forest, or, random
+	 */
 
-	for (int i = 0; i < size; i++)
+	if (assignment == 1)
 	{
-		for (int i2 = 0; i2 < size; i2++)
+		for (int i = 0; i < size; i++)
 		{
-			randomDensity = (double) random() / ((double) RAND_MAX + 1);
-			if (randomDensity < ((double) density / 100))
+			for (int i2 = 0; i2 < size; i2++)
 			{
-				randomBurning = (double) random() / ((double) RAND_MAX + 1);
-				if (randomBurning < ((double) burn / 100))
+				forest[i][i2] = LIVE_TREE;
+			}
+		}
+		forest[size / 2][size / 2] = BURNING_TREE;
+	}
+	else
+	{
+		//srandom(time(0));
+		srandom(41);	//for consistent testing
+
+		for (int i = 0; i < size; i++)
+		{
+			for (int i2 = 0; i2 < size; i2++)
+			{
+				randomDensity = (double) random() / ((double) RAND_MAX + 1);
+				if (randomDensity < ((double) density / 100))
 				{
-					forest[i][i2] = BURNING_TREE;
+					randomBurning = (double) random() / ((double) RAND_MAX + 1);
+					if (randomBurning < ((double) burn / 100))
+					{
+						forest[i][i2] = BURNING_TREE;
+					}
+					else
+					{
+						forest[i][i2] = LIVE_TREE;
+					}
 				}
 				else
 				{
-					forest[i][i2] = LIVE_TREE;
+					forest[i][i2] = EMPTY;
 				}
-			}
-			else
-			{
-				forest[i][i2] = EMPTY;
 			}
 		}
 	}
