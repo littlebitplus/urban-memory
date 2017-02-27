@@ -17,6 +17,7 @@ void commandArguments(int argc, char * argv[])
 	 * The two options "h" and "H" do not expect anything else after them
 	 * where the options b, c, d, n, p and s, if used, need a number ... i.e. -b11 -p2
 	 * added -q to handle assingment 6 with two phase cycle -q6
+	 *
 	 */
 	while ((option = getopt(argc, argv, "Hhb:c:d:n:p:s:q:")) != -1)
 	{
